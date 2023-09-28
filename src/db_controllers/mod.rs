@@ -45,16 +45,21 @@ struct Ticket{
     date: String,
 }
 
-pub fn insert_new_product(conn: &Connection)-> Result<()>{
-    
-    {
-        let mut stmt = conn.prepare_cached("INSERT INTO Products (name) VALUES (?1)")?;
-        stmt.execute(["Miguel Ramos"])?;
-    }
+pub fn insert_new_product(conn: &Connection, producto: Product)-> Result<()>{
 
     {
-        let mut stmt = conn.prepare_cached(("INSERT INTO Products (name) VALUES (?1)"))?;
-        stmt.execute(["Valeria Ramos"])?;
+        let mut stmt = conn.prepare_cached("INSERT INTO Products (name, bar_code, quantity, price_cost, price_sell, departament) VALUES (?1, ?2, ?3, ?4, ?5, ?5)")?;
+        stmt.execute(params![
+            producto.name,
+            match producto.bar_code {
+                BarCode::BarCodeStr(s) => s,
+                BarCode::BarCodeInt(i) => i.to_string(),
+            },
+            producto.quantity,
+            producto.price_cost,
+            producto.price_sell,
+            producto.departament,
+        ])?;
     }
     Ok(())
 }
