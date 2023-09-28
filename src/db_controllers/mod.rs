@@ -15,7 +15,7 @@ enum EventType{
     TicketGenerate(),
 }
 
-struct Producto{
+struct Product{
     name: String,
     bar_code: BarCode,
     quantity: i32,
@@ -39,19 +39,20 @@ struct Eventos{
 struct Ticket{
     id: i32,
     creator: String,
-    items_list: Vec<Producto>,
+    items_list: Vec<Product>,
     total: f32,
     date: String,
 }
 
-impl Ticket {
-    pub fn generate_new_ticket(){
-        let mut list_products: Vec<Producto> = vec![];
-        //crear otra funcion para agregar un producto a la lista.
+pub fn insert_new_product(conn: &Connection)-> Result<()>{
+    {
+        let mut stmt = conn.prepare_cached("INSERT INTO Products (name) VALUES (?1)")?;
+        stmt.execute(["Miguel Ramos"])?;
     }
-    pub fn add_product_at_list(item: &Producto){
-
+    {
+        let mut stmt = conn.prepare_cached(("INSERT INTO Products (name) VALUES (?1)"))?;
+        stmt.execute(["Valeria Ramos"])?;
     }
+    Ok(())
 }
-
 //structs--------------------------------------------------------------
