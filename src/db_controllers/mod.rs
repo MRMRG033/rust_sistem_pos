@@ -19,7 +19,8 @@ struct Product{
     name: String,
     bar_code: BarCode,
     quantity: i32,
-    price: f32,
+    price_cost: f32,
+    price_sell: f32,
     departament: String,
 }
 struct Usuarios{
@@ -45,10 +46,12 @@ struct Ticket{
 }
 
 pub fn insert_new_product(conn: &Connection)-> Result<()>{
+    
     {
         let mut stmt = conn.prepare_cached("INSERT INTO Products (name) VALUES (?1)")?;
         stmt.execute(["Miguel Ramos"])?;
     }
+
     {
         let mut stmt = conn.prepare_cached(("INSERT INTO Products (name) VALUES (?1)"))?;
         stmt.execute(["Valeria Ramos"])?;
